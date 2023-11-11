@@ -1,8 +1,7 @@
 <template>
-  <main
-    class="px-6 py-4 justify-cente bg-slate-50 h-screen overscroll-y-auto mb-8"
-  >
+  <main class="px-6 py-4 justify-cente bg-slate-50 h-screen overscroll-y-auto">
     <h1 class="font-semibold text-2xl text-center">TO-DO List</h1>
+    <TaskFilter />
     <button class="underline text-blue-500 mb-4" @click="addListHandler()">
       + add TO-DO list
     </button>
@@ -23,14 +22,15 @@
 </template>
 
 <script>
-import { computed, watch } from "vue";
+import { computed } from "vue";
 import { useStore } from "vuex";
 
 import TaskForm from "./components/TaskForm.vue";
 import TaskList from "./components/TaskList.vue";
+import TaskFilter from "./components/TaskFilter.vue";
 
 export default {
-  components: { TaskList, TaskForm },
+  components: { TaskList, TaskForm, TaskFilter },
   setup() {
     const store = useStore();
 
@@ -39,13 +39,6 @@ export default {
     const addListHandler = () => {
       store.commit("setNewList", []);
     };
-
-    watch(
-      () => lists.value,
-      () => {
-        console.log(lists);
-      }
-    );
 
     return {
       lists,
