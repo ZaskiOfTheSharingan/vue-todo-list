@@ -16,7 +16,7 @@
       <button class="underline text-blue-400" @click="handleEditModal()">
         Edit
       </button>
-      <button class="underline text-red-400" @click="deleteTask(index)">
+      <button class="underline text-red-400" @click="deleteTask()">
         Delete
       </button>
     </div>
@@ -24,6 +24,7 @@
       :open="isOpen"
       @closeModal="isOpen = !isOpen"
       :item-index="index"
+      :list-index="listIndex"
     />
   </div>
 </template>
@@ -44,19 +45,29 @@ export default {
       type: Number,
       default: null,
     },
+    listIndex: {
+      type: Number,
+      default: null,
+    },
   },
   emits: ["editTask", "deleteTask", "finishedTask"],
   setup(props, { emit }) {
     const store = useStore();
     const isOpen = ref(false);
 
-    const deleteTask = (index) => {
-      store.commit("removeTask", index);
+    const deleteTask = () => {
+      store.commit("removeTask", {
+        listIndex: props.listIndex,
+        itemIndex: props.index,
+      });
       emit("deleteTask");
     };
 
-    const finishTask = (index) => {
-      store.commit("finishTask", index);
+    const finishTask = () => {
+      store.commit("finishTask", {
+        listIndex: props.listIndex,
+        itemIndex: props.index,
+      });
       emit("finishTask");
     };
 

@@ -1,14 +1,12 @@
 <template>
   <div class="flex flex-col gap-1">
-    <div class="w-48 mb-3">
-      <TextInput v-model="fulltext" label="Fulltext filter" />
-    </div>
-    <template v-if="filteredTasks.length !== 0">
+    <template v-if="tasks.length !== 0">
       <TaskItem
-        v-for="(element, index) in filteredTasks"
+        v-for="(element, index) in tasks"
         :item="element"
         :key="index"
         :index="index"
+        :list-index="listIndex"
         class="bg-white shadow-md rounded border-2"
       />
     </template>
@@ -21,24 +19,26 @@ import { computed, ref } from "vue";
 import { useStore } from "vuex";
 
 import TaskItem from "./TaskItem.vue";
-import TextInput from "./ui/TextInput.vue";
 
 export default {
-  setup() {
+  props: {
+    listIndex: {
+      type: Number,
+      default: null,
+    },
+  },
+  setup(props) {
     const store = useStore();
     const fulltext = ref("");
-    const filteredTasks = computed(() =>
-      store.getters.getFilteredList(fulltext.value)
-    );
+    const tasks = computed(() => store.getters.getList(props.listIndex));
 
     return {
       fulltext,
-      filteredTasks,
+      tasks,
     };
   },
   components: {
     TaskItem,
-    TextInput,
   },
 };
 </script>

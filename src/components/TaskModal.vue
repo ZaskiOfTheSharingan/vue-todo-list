@@ -79,13 +79,22 @@ export default {
       type: Number,
       default: null,
     },
+    listIndex: {
+      type: Number,
+      default: null,
+    },
   },
   emits: ["closeModal"],
   setup(props, { emit }) {
     const store = useStore();
 
     const isOpen = ref(false);
-    const loadedTask = computed(() => store.getters.getTask(props.itemIndex));
+    const loadedTask = computed(() =>
+      store.getters.getTask({
+        listIndex: props.listIndex,
+        itemIndex: props.itemIndex,
+      })
+    );
 
     const isError = ref(false);
 
@@ -116,7 +125,8 @@ export default {
     const submitEdit = () => {
       if (editingTask.name !== null && editingTask.name !== "") {
         store.commit("editTask", {
-          index: props.itemIndex,
+          listIndex: props.listIndex,
+          itemIndex: props.itemIndex,
           val: { ...editingTask },
         });
         isError.value = false;

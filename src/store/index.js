@@ -2,14 +2,15 @@ import { createStore } from "vuex";
 
 export default createStore({
   state: {
+    todoLists: [],
     tasks: [],
   },
   getters: {
-    getList(state) {
-      return state.tasks;
+    getList: (state) => (index) => {
+      return state.todoLists[index];
     },
-    getTask: (state) => (index) => {
-      return state.tasks[index];
+    getTask: (state) => (payload) => {
+      return state.todoLists[payload.listIndex][payload.itemIndex];
     },
     getFilteredList: (state) => (val) => {
       return state.tasks.filter((task) =>
@@ -18,20 +19,22 @@ export default createStore({
     },
   },
   mutations: {
-    setTask(state, val) {
-      state.tasks.push(val);
+    setNewList(state, val) {
+      state.todoLists.push(val);
     },
-    removeTask(state, index) {
-      state.tasks.splice(index, 1);
+    setTask(state, payload) {
+      state.todoLists[payload.index].push(payload.task);
+    },
+    removeTask(state, payload) {
+      state.todoLists[payload.listIndex].splice(payload.itemIndex, 1);
     },
     editTask(state, payload) {
-      state.tasks[payload.index] = { ...payload.val };
+      state.todoLists[payload.listIndex][payload.itemIndex] = {
+        ...payload.val,
+      };
     },
-    finishTask(state, index) {
-      state.tasks[index].finished = true;
-    },
-    initOrder(state, val) {
-      state.tasks = val;
+    finishTask(state, payload) {
+      state.todoLists[payload.listIndex][payload.itemIndex].finished = true;
     },
   },
 });

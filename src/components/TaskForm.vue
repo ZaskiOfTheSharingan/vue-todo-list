@@ -33,13 +33,19 @@
 </template>
 
 <script>
-import { reactive, ref, watch } from "vue";
+import { reactive, ref, watch, computed } from "vue";
 import { useStore } from "vuex";
 import TextInput from "./ui/TextInput.vue";
 
 export default {
   components: {
     TextInput,
+  },
+  props: {
+    listIndex: {
+      type: Number,
+      default: null,
+    },
   },
   emits: ["created"],
   setup(props, { emit }) {
@@ -57,7 +63,8 @@ export default {
 
     const handleTask = () => {
       if (task.name !== null && task.name !== "") {
-        store.commit("setTask", { ...task });
+        store.commit("setTask", { index: props.listIndex, task: { ...task } });
+        console.log(computed(() => store.state.todoLists));
         emit("created");
         isError.value = false;
 
