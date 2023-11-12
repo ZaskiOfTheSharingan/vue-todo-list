@@ -13,9 +13,18 @@ export default createStore({
       return state.todoLists[payload.listIndex][payload.itemIndex];
     },
     getFilteredList: (state) => (val) => {
-      return state.tasks.filter((task) =>
-        task.name.toLowerCase().includes(val.toLowerCase())
-      );
+      let arr = [];
+
+      state.todoLists.forEach((list) => {
+        arr.push(
+          list.filter((task) =>
+            task.name.toLowerCase().includes(val?.toLowerCase())
+          )
+        );
+      });
+
+      if (val) return arr;
+      return [];
     },
   },
   mutations: {

@@ -26,6 +26,10 @@ export default {
       type: Number,
       default: null,
     },
+    list: {
+      type: Array,
+      default: null,
+    },
   },
   setup(props) {
     const store = useStore();

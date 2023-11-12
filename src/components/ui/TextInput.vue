@@ -13,15 +13,15 @@
 <script>
 export default {
   props: {
-    modelValue: {},
+    modelValue: {
+      type: String,
+      default: "",
+    },
     label: {
       type: String,
       default: null,
     },
   },
   emits: ["update:modelValue"],
-  setup() {
-    return {};
-  },
 };
 </script>

@@ -8,7 +8,7 @@
     <div
       v-for="(lists, index) in lists"
       :key="index"
-      class="gap-2 mb-3 border-2 border-gray-300 px-2 py-1"
+      class="gap-2 mb-3 bg-zinc-50 shadow-xl rounded-lg p-2"
     >
       <h2 class="text-xl font-medium text-gray-800 text-center">
         TO-DO list {{ index + 1 }}
