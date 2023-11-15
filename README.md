@@ -1,5 +1,3 @@
-# freelo
-
 ## Project setup
 ```
 npm install
